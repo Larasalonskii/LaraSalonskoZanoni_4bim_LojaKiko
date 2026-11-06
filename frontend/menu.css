@@ -1,0 +1,308 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    color: #333;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- HEADER E TOPO --- */
+header {
+    background-color: aquamarine;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    background-color: aquamarine;
+}
+
+.header-titulo { 
+    margin: 0; 
+    font-size: 1.8rem;
+    color: #1a5d3c;
+}
+
+/* Estilo do Select no Topo */
+#oUsuario {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #1a5d3c;
+    background-color: white;
+    color: #1a5d3c;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* --- NAV (Barra Verde) --- */
+.nav {
+    width: 100%;
+    background: linear-gradient(90deg, aquamarine, green);
+    padding: 0.5rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.nav__menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav__menu-item {
+    position: relative;
+}
+
+/* 🛑 Oculta o item de menu "Cadastros" por padrão para quem não é gerente */
+#itemMenuCadastros {
+    display: none; 
+}
+
+/* 🟢 Exibe o item de menu "Cadastros" se o JS injetar esta classe */
+.gerente-acesso-total {
+    display: block !important; 
+}
+
+
+.nav__menu-item a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    display: block;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.nav__menu-item a:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+
+/* Submenu (Dropdown) */
+.nav__submenu {
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    display: none;
+    min-width: 180px;
+    text-align: left;
+    z-index: 100; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+    border-radius: 4px;
+    padding: 5px 0;
+}
+
+/* 🟢 Estado HOVER: O submenu se torna visível (para 'About', etc.) */
+.nav__menu-item:hover > .nav__submenu { 
+    display: block;
+}
+
+.nav__submenu-item a {
+    color: #1a5d3c;
+    padding: 0.8rem 1rem;
+    white-space: nowrap;
+    width: 100%;
+    display: block;
+}
+
+.nav__submenu-item a:hover {
+    background: aquamarine;
+}
+
+/* --- BOTÃO CARRINHO --- */
+.btn-ver-carrinho {
+    position: absolute;
+    right: 20px;
+    
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.btn-ver-carrinho:hover {
+    background-color: #d97706;
+}
+
+/* --- CARROSSEL --- */
+main {
+    flex-grow: 1; 
+    padding: 2rem 0;
+    background-color: #f9f9f9;
+}
+
+.carrossel-container {
+    position: relative;
+    max-width: 95%;
+    margin: 0 auto;
+    padding: 20px 50px;
+}
+
+.carrossel-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0;
+    gap: 20px;
+    scrollbar-width: none;
+}
+
+.carrossel-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* BOTÕES DE NAVEGAÇÃO (< e >) */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.nav-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+
+/* --- CARDS DE PRODUTO E FOOTER --- */
+.produto-card {
+    flex: 0 0 auto;
+    width: 280px;
+    padding: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.produto-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-imagem {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.card-titulo {
+    font-size: 1.4rem;
+    color: #0c4a6e;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.card-detalhe {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.card-preco {
+    font-size: 1.2rem;
+    color: #047857;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.card-selecao-quantidade {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.input-quantidade {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-carrinho {
+    width: 100%;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-carrinho:hover {
+    background-color: #059669;
+}
+
+footer {
+    padding: 1rem;
+    background: #f0f0f0;
+    width: 100%;
+    margin-top: auto; 
+    border-top: 1px solid #e0e0e0;
+    color: #666;
+}
+
+.mensagem-info {
+    width: 100%; 
+    padding: 20px;
+}

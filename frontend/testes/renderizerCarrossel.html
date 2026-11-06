@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel de Produtos da API</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Contêiner Principal do Carrossel */
+        .carrossel-container {
+            position: relative;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        /* Área de Rolagem dos Cards */
+        .carrossel-wrapper {
+            display: flex;
+            overflow-x: auto; /* Permite a rolagem horizontal */
+            scroll-snap-type: x mandatory; /* Efeito de encaixe ao rolar */
+            -webkit-overflow-scrolling: touch; /* Melhora a rolagem em iOS */
+            padding: 10px 0;
+            gap: 20px; /* Espaçamento entre os cards */
+            scrollbar-width: none; /* Esconde a barra de rolagem para Firefox */
+        }
+        /* Esconde a barra de rolagem para Chrome, Safari e Edge */
+        .carrossel-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Estilo Individual do Card */
+        .produto-card {
+            flex: 0 0 auto; /* Não cresce, não encolhe, mantém o tamanho */
+            width: 280px; /* Largura fixa do card */
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            scroll-snap-align: start;
+            transition: transform 0.3s ease;
+        }
+
+        .produto-card:hover {
+            transform: translateY(-5px); /* Efeito sutil ao passar o mouse */
+        }
+
+        .card-titulo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            margin-bottom: 10px;
+        }
+
+        .card-detalhe {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .card-preco {
+            font-size: 1.2rem;
+            color: #047857;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Estilos dos Botões de Navegação */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .nav-btn:hover {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        #prev-btn {
+            left: -30px;
+        }
+
+        #next-btn {
+            right: -30px;
+        }
+
+        /* Estilo para Mensagens de Erro/Carregamento */
+        .mensagem-info {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>🛒 Produtos em Destaque</h1>
+
+    <div class="carrossel-container">
+        
+        <button id="prev-btn" class="nav-btn" aria-label="Anterior">‹</button>
+        
+        <div id="carrossel-wrapper" class="carrossel-wrapper">
+            <div class="mensagem-info">Carregando produtos...</div>
+        </div>
+        
+        <button id="next-btn" class="nav-btn" aria-label="Próximo">›</button>
+
+    </div>
+
+    <script>
+        // 1. Define a URL da API
+        const URL_API = 'http://localhost:3001/produto/';
+        
+        // Elementos DOM
+        const carrosselWrapper = document.getElementById('carrossel-wrapper');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Função para criar e renderizar um único card
+        function criarCardProduto(produto) {
+            const card = document.createElement('div');
+            card.classList.add('produto-card');
+
+            // Formatação do preço
+            const precoFormatado = produto.preco_unitario_produto.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2
+            });
+
+            // Estrutura do Card em HTML
+            card.innerHTML = `
+                <div class="card-titulo">${produto.nome_produto}</div>
+                <div class="card-detalhe">ID: ${produto.id_produto}</div>
+                <div class="card-detalhe">Estoque: **${produto.quantidade_estoque_produto}**</div>
+                <div class="card-preco">Preço Unitário: ${precoFormatado}</div>
+            `;
+
+            return card;
+        }
+
+        // Função para preencher o carrossel com os dados
+        function renderizarProdutos(dadosProdutos) {
+            // Limpa o conteúdo de carregamento
+            carrosselWrapper.innerHTML = ''; 
+
+            if (dadosProdutos.length === 0) {
+                carrosselWrapper.innerHTML = `<div class="mensagem-info">Nenhum produto encontrado.</div>`;
+                return;
+            }
+
+            // Cria e anexa cada card
+            dadosProdutos.forEach(produto => {
+                const card = criarCardProduto(produto);
+                carrosselWrapper.appendChild(card);
+            });
+        }
+
+        // Função para buscar os dados da API
+        async function buscarErenderizarProdutos() {
+            try {
+                // 1. Busca os dados
+                const resposta = await fetch(URL_API);
+
+                if (!resposta.ok) {
+                    throw new Error(`Erro HTTP! Status: ${resposta.status}`);
+                }
+
+                // 2. Converte para JSON
+                const dados = await resposta.json();
+
+                // 3. Renderiza os cards
+                renderizarProdutos(dados);
+                
+                // 4. Configura o Carrossel após o carregamento dos cards
+                configurarNavegacaoCarrossel();
+
+            } catch (erro) {
+                // Exibe erro na tela
+                console.error("Houve um erro ao buscar os dados:", erro);
+                carrosselWrapper.innerHTML = `<div class="mensagem-info" style="color: red;">Erro ao carregar os dados. Verifique a URL (${URL_API}) e o CORS.</div>`;
+            }
+        }
+        
+        // Função para a funcionalidade de rolagem (Carrossel)
+        function configurarNavegacaoCarrossel() {
+            const scrollAmount = 300; // Quanto rolar (aproximadamente a largura de um card + gap)
+
+            prevBtn.addEventListener('click', () => {
+                carrosselWrapper.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                carrosselWrapper.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Inicia a aplicação ao carregar a página
+        window.onload = buscarErenderizarProdutos;
+    </script>
+
+</body>
+</html>

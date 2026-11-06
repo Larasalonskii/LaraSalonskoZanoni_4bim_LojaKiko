@@ -1,0 +1,242 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    color: #333;
+    /* Remove text-align: center; do body se quiser centralizar apenas o conteúdo principal */
+    /* Deixei, pois centraliza o h1 "Confirmar compra" */
+    text-align: center;
+}
+
+/* Cabeçalho */
+header {
+    padding: 0rem 0rem 0rem 0rem;
+    background-color: aquamarine;
+    margin-bottom: 20px;
+    /* Adicionado para separar o header do conteúdo */
+}
+
+header h1 {
+    margin-bottom: 0rem;
+    font-size: 1.8rem;
+    color: #1a5d3c;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    padding: 0.1rem 1.5rem 1.5rem 0.1rem;
+}
+
+.topo h3 {
+    margin: 0;
+}
+
+/* Menu principal */
+.nav {
+    background: linear-gradient(90deg, aquamarine, green);
+    padding: 0.5rem 0;
+}
+
+.nav__menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.nav__menu-item {
+    position: relative;
+}
+
+.nav__menu-item a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+
+/* Submenu */
+.nav__submenu {
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    display: none;
+    min-width: 180px;
+    text-align: left;
+}
+
+.nav__submenu-item a {
+    color: #1a5d3c;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+
+.nav__submenu-item a:hover {
+    background: aquamarine;
+}
+
+/* Hover para mostrar submenu */
+.nav__menu-item:hover .nav__submenu {
+    display: block;
+}
+
+/* ======= Tabela (Centralização) ======= */
+#lista-finalizar {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(13, 148, 136, 0.1);
+    width: 90%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-left: auto;
+    /* NOVO */
+    margin-right: auto;
+    /* NOVO */
+}
+
+#lista-finalizar thead {
+    background-color: #0d9488;
+    color: white;
+}
+
+#lista-finalizar th {
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #0d9488;
+}
+
+#lista-finalizar td {
+    padding: 12px;
+    border-bottom: 1px solid #e0f2f1;
+}
+
+#lista-finalizar tbody tr:hover {
+    background-color: #f0fdfa;
+}
+
+/* Alinhamento das colunas de valores à direita */
+/* Seleciona o cabeçalho das colunas "Código", "Preço" e "Subtotal" (1ª, 3ª e 5ª) */
+#lista-finalizar th:nth-child(1),
+#lista-finalizar th:nth-child(3),
+#lista-finalizar th:nth-child(5) {
+    text-align: right;
+}
+
+/* Seleciona as células de dados das colunas "Código", "Preço" e "Subtotal" */
+#lista-finalizar td:nth-child(1),
+#lista-finalizar td:nth-child(3),
+#lista-finalizar td:nth-child(5) {
+    text-align: right;
+}
+
+/* ======= Total (Centralização) ======= */
+#total-final {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #0d9488;
+    margin-top: 20px;
+    text-align: right;
+    width: 90%;
+    max-width: 800px;
+    margin-left: auto;
+    /* NOVO */
+    margin-right: auto;
+    /* NOVO */
+}
+
+/* ======= Botões e Container de Botões (Centralização) ======= */
+.container-botoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 25px;
+    margin-left: auto;
+    /* NOVO */
+    margin-right: auto;
+    /* NOVO */
+}
+
+button {
+    background-color: #0d9488;
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 0;
+}
+
+button:hover {
+    background-color: #0f766e;
+}
+
+/* ======= Responsividade ======= */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    #lista-finalizar {
+        width: 95%;
+        font-size: 0.9rem;
+    }
+
+    #lista-finalizar th,
+    #lista-finalizar td {
+        padding: 8px 6px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    #total-final {
+        font-size: 1.2rem;
+    }
+
+    /* Ajuste responsivo dos botões */
+    .container-botoes {
+        width: 95%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .container-botoes button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    /* Alinhamento da tabela em telas pequenas (mantido) */
+    #lista-finalizar th:nth-child(1),
+    #lista-finalizar th:nth-child(3),
+    #lista-finalizar th:nth-child(5) {
+        text-align: right;
+    }
+
+    #lista-finalizar td:nth-child(1),
+    #lista-finalizar td:nth-child(3),
+    #lista-finalizar td:nth-child(5) {
+        text-align: right;
+    }
+}

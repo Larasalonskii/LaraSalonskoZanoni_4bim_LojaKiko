@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD - Pagamento</title>
+    <link rel="stylesheet" href="./pagamento.css">
+    <style>
+        /* Estilo mínimo da tabela de formas de pagamento (dentro do formulário) */
+        .formas-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        .formas-table th, .formas-table td { padding: 6px; text-align: left; }
+        .formas-table select, .formas-table input { width: 100%; box-sizing: border-box; }
+        .total-pagamento { margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>CRUD Pagamento</h1>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Cadastro de Pagamento</h2>
+
+            <form id="pagamentoForm">
+                <div class="search-container">
+                    <label for="searchId">Buscar por ID:</label>
+                    <div class="search-input-group">
+                        <input type="number" id="searchId" placeholder="Digite o ID para buscar" min="1">
+                        <button type="button" id="btnBuscar">🔍 Buscar</button>
+
+                        <button type="button" id="btnIncluir" class="btn-primary">Incluir</button>
+                        <button type="button" id="btnAlterar" class="btn-secondary"
+                            style="display: none;">Alterar</button>
+                        <button type="button" id="btnExcluir" class="btn-danger" style="display: none;">Excluir</button>
+                        <button type="button" id="btnSalvar" class="btn-save" style="display: none;">Salvar</button>
+                        <button type="button" id="btnCancelar" class="btn-cancel">Cancelar</button>
+                    </div>
+                </div>
+
+                <fieldset id="formFields">
+                    <legend>Dados do Pagamento</legend>
+
+                    <div class="form-group">
+                        <label for="id_pagamento">ID:</label>
+                        <input type="text" id="id_pagamento" name="id_pagamento" readonly disabled
+                            placeholder="Gerado automaticamente">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pedido_id_pedido">ID do pedido:</label>
+                        <input type="number" id="pedido_id_pedido" name="pedido_id_pedido" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome_cliente">Cliente do pedido:</label>
+                        <input type="text" id="nome_cliente" name="nome_cliente" readonly disabled
+                            placeholder="Preenchido automaticamente ao buscar">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data_pagamento">Data e hora do pagamento:</label>
+                        <input type="datetime-local" id="data_pagamento" name="data_pagamento" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Formas de pagamento:</label>
+                        <table class="formas-table" id="formasTable">
+                            <thead>
+                                <tr>
+                                    <th>Forma</th>
+                                    <th>Valor pago (R$)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="formasTableBody">
+                                <!-- Linhas criadas dinamicamente -->
+                            </tbody>
+                        </table>
+                        <button type="button" id="btnAdicionarForma" class="btn-secondary"
+                            style="display: none;">+ Adicionar forma</button>
+                    </div>
+
+                    <div class="total-pagamento">
+                        Total do pagamento: <span id="totalPagamento">R$ 0,00</span>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <div class="table-container">
+                <table id="pagamentosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Pedido</th>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Formas</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagamentosTableBody">
+                        <!-- Dados serão carregados dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CRUD Pagamento</p>
+    </footer>
+
+    <div id="messageContainer" class="message-container"></div>
+
+    <script src="./pagamento.js" defer></script>
+
+</body>
+
+</html>

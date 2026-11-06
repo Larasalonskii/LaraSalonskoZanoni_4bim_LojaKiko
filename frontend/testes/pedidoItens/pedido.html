@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido</title>
+    <link rel="stylesheet" href="pedido.css">
+</head>
+
+<body>
+    <header>
+        <h1>CRUD Forma_pagamento</h1>
+    </header>
+
+    <main>
+        <section class="pedido">
+            <form class="dados-pedido">
+                <label for="id_pedido">ID Pedido</label>
+                <input type="text" id="id_pedido" name="id_pedido"><br>
+
+                <label for="data_pedido">Data Pedido</label>
+                <input type="date" id="data_pedido" name="data_pedido"><br>
+
+                <label for="cliente">Cliente</label>
+                <select id="cliente" name="cliente">
+                    <option value="">Selecione...</option>
+                    <option value="1">João Silva</option>
+                    <option value="2">Maria Oliveira</option>
+                </select>
+            </form>
+
+            <section class="itens-pedido">
+                <h2>Itens do Pedido</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Produto</th>
+                            <th>Nome do Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Subtotal</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-itens">
+                        <!-- Itens adicionados dinamicamente -->
+                    </tbody>
+                </table>
+                <button id="novo-item">Novo Item</button>
+            </section>
+
+            <div class="total-container">
+                <span>Total:</span>
+                <strong id="total">R$ 0,00</strong>
+            </div>
+
+            <section class="pagamento">
+                <h2>Pagamento</h2>
+                <div class="opcoes-pagamento">
+                    <button type="button">Cartão de Crédito</button>
+                    <button type="button">Transferência</button>
+                    <button type="button">PIX</button>
+                    <button type="button">Dinheiro</button>
+                </div>
+                <button class="finalizar">Finalizar Pedido</button>
+            </section>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 CRUD Carrinho</p>
+    </footer>
+
+    <script src="pedido.js"></script>
+</body>
+
+</html>

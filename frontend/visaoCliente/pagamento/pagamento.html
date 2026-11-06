@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pagamento</title>
+    <link rel="stylesheet" href="/visaoCliente/pagamento/pagamento.css">
+</head>
+
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="topo">
+            <h1>CandyShop - Pagamento</h1>
+
+        </div>
+        <nav class="nav">
+            <ul class="nav__menu">
+                <li class="nav__menu-item"><a href="index.html">Início</a></li>
+                <li class="nav__menu-item"><a href="#">Sobre</a></li>
+                <li class="nav__menu-item"><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="resumo-pedido">
+            <h2>Resumo do Pedido</h2>
+            <div class="valor-total">
+                <p>Valor Total:</p>
+                <p id="valor-total" class="valor">R$ 0,00</p>
+            </div>
+            <div class="valor-restante">
+                <p>Valor Restante:</p>
+                <p id="valor-restante" class="valor">R$ 0,00</p>
+            </div>
+        </section>
+
+        <section class="formas-pagamento">
+            <h2>Formas de Pagamento</h2>
+
+            <div class="selecao-pagamento">
+                <label for="forma-pagamento">Adicionar Forma de Pagamento:</label>
+                <label for="forma-pagamento">Forma de Pagamento</label>
+                <select id="forma-pagamento">
+                    <option value="">Selecione uma forma de pagamento</option>
+                </select>
+                <button type="button" id="btn-adicionar" class="btn-adicionar">Adicionar</button>
+            </div>
+
+            <form id="form-pagamento">
+                <div id="formas-adicionadas" class="formas-adicionadas">
+                    <!-- As formas de pagamento serão adicionadas aqui dinamicamente -->
+                </div>
+
+                <button type="submit" id="btn-finalizar">Finalizar Pagamento</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 CandyShop - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="/visaoCliente/pagamento/pagamento.js"></script>
+</body>
+
+</html>

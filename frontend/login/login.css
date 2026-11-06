@@ -1,0 +1,92 @@
+/* === CONTAINER MASTER === */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.master-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centraliza verticalmente */
+    align-items: center;     /* centraliza horizontalmente */
+    min-height: 100vh;       /* ocupa toda a altura da janela */
+    background: linear-gradient(135deg, #d4fcdc, #b8e7b8);
+}
+
+
+
+/* ===== CONTAINER PRINCIPAL ===== */
+.form-container {
+    width: 90%;
+    max-width: 450px;
+    min-height: 50vh;
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 15px rgba(45, 74, 45, 0.1);
+    border: 1px solid #011601;
+
+    /* Flexbox centraliza os filhos */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centraliza horizontalmente os blocos */
+    justify-content: center; /* centraliza verticalmente */
+}
+
+/* ===== TÍTULO ===== */
+.form-container h2 {
+    color: #2d4a2d;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* ===== TEXTOS (p e label) ===== */
+.form-container label,
+.form-container p {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #2d4a2d;
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 0.75rem auto; /* centraliza o bloco */
+    display: block; /* garante comportamento consistente */
+}
+
+/* ===== INPUT ===== */
+.form-container input {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.8rem;
+    border: 2px solid #0ba10b;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: white;
+    text-align: center;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+}
+
+/* ===== BOTÃO ===== */
+.form-container button {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid #2d4a2d;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, aquamarine, #40e0d0);
+    color: #2d4a2d;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-container button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras</title>
+    <link rel="stylesheet" href="/visaoCliente/carrinho/carrinho.css">
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <div class="topo">
+            <h1 class="header-titulo">CandyShop - Carrinho</h1>
+
+            <div class="usuario-area">
+                <select id="oUsuario" aria-label="Ações do usuário" onchange="handleUserAction(this.value)">
+                    <option value="">Usuário</option>
+                    <option value="sair">Sair</option>
+                </select>
+            </div>
+        </div>
+        <nav class="nav">
+            <ul class="nav__menu">
+                <li class="nav__menu-item"><a href="index.html">Início</a></li>
+                <li class="nav__menu-item"><a href="#">Sobre</a></li>
+                <li class="nav__menu-item"><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>🛒</h1>
+
+        <table id="tabela-carrinho">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Produto</th>
+                    <th>Quantidade (g)</th>
+                    <th>Preço/kg</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="corpo-tabela"></tbody>
+        </table>
+
+        <div class="total" id="total-geral">Total: R$ 0,00</div>
+
+        <div class="acoes">
+            <button id="btn-limpar" class="btn btn-limpar">🧹 Limpar Carrinho</button>
+            <a href="http://localhost:3001/menu" class="btn">← Continuar Comprando</a>
+            <button id="btn-finalizar" class="btn">Finalizar Pedido</button>
+        </div>
+
+        <a href="../index.html" class="voltar">Voltar à Página Inicial</a>
+    </div>
+
+    <script src="/visaoCliente/carrinho/carrinho.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+    <!-- Container Master centralizado -->
+    <div class="master-container">
+
+        <!-- Frame do email -->
+        <div id="loginFrame" class="form-container">
+            <h2>Login</h2>
+            <label for="email">Digite seu email</label>
+            <input type="email" id="email" placeholder="Digite seu e-mail" value="berola@gmail.com" required />
+            <button onclick="verificarEmail()">Avançar</button>
+            <p class="link-cadastro">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+        </div>
+
+        <!-- Frame da senha -->
+        <div id="senhaFrame" class="form-container" style="display:none;">
+            <h2>Login</h2>
+            <p id="nomeUsuario"></p>
+            <label for="senha">Digite sua senha</label>
+            <input type="password" id="senha" placeholder="Digite sua senha" value="12345" required />
+            <button onclick="verificarSenha()">Entrar</button>
+        </div>
+
+        <!-- Mensagens dinâmicas -->
+        <div class="message-container"></div>
+
+    </div>
+
+    <script src="./login.js"></script>
+</body>
+
+</html>

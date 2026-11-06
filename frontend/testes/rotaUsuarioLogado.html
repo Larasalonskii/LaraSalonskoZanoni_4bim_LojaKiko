@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste de Rota de Login (POST)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            background-color: #f4f4f4;
+        }
+        .ok {
+            border-color: green;
+            color: green;
+        }
+        .nao-logado {
+            border-color: red;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Teste da Rota: `/login/verificaSeUsuarioEstaLogado` (Método POST)</h1>
+    <p>Clique no botão para verificar se o usuário está logado (requisição <strong>POST</strong> para: <code>http://localhost:3001/login/verificaSeUsuarioEstaLogado</code>).</p>
+    
+    <button id="btnTestar">Testar Rota</button>
+
+    <p>Status da Requisição (JSON):</p>
+    <div id="resultado">Aguardando teste...</div>
+
+    <script>
+        document.getElementById('btnTestar').addEventListener('click', async () => {
+            const url = 'http://localhost:3001/login/verificaSeUsuarioEstaLogado';
+            const resultadoDiv = document.getElementById('resultado');
+
+            resultadoDiv.textContent = 'Carregando...';
+            resultadoDiv.className = '';
+
+            try {
+                // *** A CORREÇÃO ESTÁ AQUI: Especificando o método POST ***
+                const response = await fetch(url, {
+                    method: 'POST' // OBRIGATÓRIO PARA ROTAS POST
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status} - Verifique se o seu servidor está rodando na porta 3001.`);
+                }
+
+                const data = await response.json();
+                
+                resultadoDiv.textContent = JSON.stringify(data, null, 2);
+
+                if (data.status === 'ok') {
+                    resultadoDiv.classList.add('ok');
+                    console.log(`Usuário Logado: ${data.nome}`);
+                } else if (data.status === 'nao_logado') {
+                    resultadoDiv.classList.add('nao-logado');
+                    console.log('Usuário Não Logado.');
+                }
+
+            } catch (error) {
+                resultadoDiv.textContent = `Erro ao fazer a requisição: ${error.message}`;
+                resultadoDiv.classList.add('nao-logado');
+                console.error('Erro de Fetch:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyShop - Menu Principal</title>
+    <link rel="stylesheet" href="http://localhost:3001/menu.css">
+</head>
+
+<body>
+    <header>
+        <div class="topo">
+            <h1 class="header-titulo">CandyShop - Menu Principal</h1>
+
+            <div class="usuario-area">
+                <select id="oUsuario" aria-label="Ações do usuário" onchange="handleUserAction(this.value)">
+                    <option value="">Usuário</option>
+                    <option value="sair">Sair</option>
+                </select>
+            </div>
+        </div>
+
+        <nav class="nav" aria-label="Navegação Principal do Site">
+
+            <ul class="nav__menu" role="menu">
+                <li class="nav__menu-item"><a href="#">Home</a></li>
+
+                <li id="itemMenuCadastros" class="nav__menu-item">
+                    <a href="#">Cadastros</a>
+                    <ul class="nav__submenu">
+                        <li class="nav__submenu-item"><a href="http://localhost:3001/pessoa/abrirCrudPessoa">Pessoa</a>
+                        </li>
+                        <li class="nav__submenu-item"><a href="http://localhost:3001/cargo/abrirCrudCargo">Cargo</a>
+                        </li>
+                        <li class="nav__submenu-item"><a
+                                href="http://localhost:3001/forma_pagamento/abrirCrudForma_pagamento">Forma
+                                Pagamento</a></li>
+                        <li class="nav__submenu-item"><a
+                                href="http://localhost:3001/produto/abrirCrudProduto">Produto</a></li>
+                        <li class="nav__submenu-item"><a href="http://localhost:3001/pedido/abrirCrudPedido">Pedido</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav__menu-item">
+                    <a href="#">About</a>
+                    <ul class="nav__submenu">
+                        <li class="nav__submenu-item"><a href="#">Our Company</a></li>
+                        <li class="nav__submenu-item"><a href="#">Our Team</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav__menu-item"><a href="#">Blog</a></li>
+                <li class="nav__menu-item"><a href="#">Contact</a></li>
+            </ul>
+
+            <button id="btnVerCarrinho" class="btn-ver-carrinho"
+                onclick="window.location.href='http://localhost:3001/login/visaoclientecarrinho'"
+                aria-label="Ver Carrinho de Compras">
+                🛒 Ver Carrinho (<span id="contadorCarrinho">0</span>)
+            </button>
+
+        </nav>
+    </header>
+
+    <main>
+        <div class="carrossel-container">
+            <button id="prev-btn" class="nav-btn prev" aria-label="Anterior">&lt;</button>
+
+            <div id="carrossel-wrapper" class="carrossel-wrapper">
+                <div class="mensagem-info">Carregando produtos...</div>
+            </div>
+
+            <button id="next-btn" class="nav-btn next" aria-label="Próximo">&gt;</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 - Meu Site</p>
+    </footer>
+
+    <script src="http://localhost:3001/menu.js"></script>
+
+</body>
+
+</html>

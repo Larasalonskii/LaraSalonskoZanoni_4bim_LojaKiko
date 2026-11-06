@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD - Forma de Pagamento</title>
+    <link rel="stylesheet" href="./forma_pagamento.css">
+</head>
+
+<body>
+    <header>
+        <h1>CRUD Forma de Pagamento</h1>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Cadastro de Forma de Pagamento</h2>
+
+            <form id="formaPagamentoForm">
+                <div class="search-container">
+                    <label for="searchId">Buscar por ID:</label>
+                    <div class="search-input-group">
+                        <input type="number" id="searchId" placeholder="Digite o ID para buscar" min="1">
+                        <button type="button" id="btnBuscar">🔍 Buscar</button>
+
+                        <button type="button" id="btnIncluir" class="btn-primary">Incluir</button>
+                        <button type="button" id="btnAlterar" class="btn-secondary"
+                            style="display: none;">Alterar</button>
+                        <button type="button" id="btnExcluir" class="btn-danger" style="display: none;">Excluir</button>
+                        <button type="button" id="btnSalvar" class="btn-save" style="display: none;">Salvar</button>
+                        <button type="button" id="btnCancelar" class="btn-cancel">Cancelar</button>
+                    </div>
+                </div>
+
+                <fieldset id="formFields">
+                    <legend>Dados da Forma de Pagamento</legend>
+
+                    <div class="form-group">
+                        <label for="id_forma_pagamento">ID:</label>
+                        <input type="text" id="id_forma_pagamento" name="id_forma_pagamento" readonly disabled
+                            placeholder="Gerado automaticamente">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome_forma_pagamento">Nome da forma de pagamento:</label>
+                        <input type="text" id="nome_forma_pagamento" name="nome_forma_pagamento" maxlength="100" required>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <div class="table-container">
+                <table id="formasPagamentoTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody id="formasPagamentoTableBody">
+                        <!-- Dados serão carregados dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CRUD Forma de Pagamento</p>
+    </footer>
+
+    <div id="messageContainer" class="message-container"></div>
+
+    <script src="./forma_pagamento.js" defer></script>
+
+</body>
+
+</html>
