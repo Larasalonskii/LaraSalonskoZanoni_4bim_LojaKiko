@@ -12,7 +12,7 @@ const dbConfig = {
     // user: 'postgres', // na utfpr
     // password: 'postgres',
 
-    database: 'candyshop',
+    database: 'PROJETO4BI',
     // Configurações específicas do PostgreSQL
     ssl: false, // Defina como true se usar SSL
     idleTimeoutMillis: 30000, // Timeout para conexões ociosas

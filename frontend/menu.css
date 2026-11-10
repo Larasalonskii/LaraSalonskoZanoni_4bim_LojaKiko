@@ -1,177 +1,337 @@
-/* Reset básico */
-* {
+/* ==========================================================
+   CandyShop — Menu Principal
+   Preto & branco com toques de rosa e dourado
+   Vibe: vitrine minimalista (estilo Kiko)
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+:root {
+    --preto: #0a0a0a;
+    --preto-2: #141414;
+    --preto-3: #1f1f1f;
+    --carvao: #25282b;
+    --branco: #ffffff;
+    --off-white: #f7f5f2;
+    --cinza: #7a7d80;
+    --cinza-claro: #e6e3df;
+
+    --rosa: #f4a6c0;
+    --rosa-forte: #e8789f;
+    --rosa-promo: #d63a6a;
+    --rosa-suave: #fde8f0;
+
+    --dourado: #c9a24b;
+    --dourado-claro: #e8d08a;
+    --dourado-grad: linear-gradient(135deg, #8c6d1f 0%, #e8d08a 45%, #c9a24b 55%, #8c6d1f 100%);
+
+    --fonte-titulo: 'Playfair Display', Georgia, serif;
+    --fonte-texto: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    --raio: 12px;
+    --sombra-leve: 0 4px 14px rgba(0, 0, 0, .12);
+    --sombra-forte: 0 18px 45px rgba(0, 0, 0, .22);
+    --transicao: .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: white;
-    color: #333;
-    text-align: center;
+    font-family: var(--fonte-texto);
+    background: var(--branco);
+    color: var(--carvao);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* --- HEADER E TOPO --- */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font-family: inherit;
+}
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
 header {
-    background-color: aquamarine;
-    padding: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--preto);
+    color: var(--branco);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--dourado-grad);
 }
 
 .topo {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 1.5rem;
-    background-color: aquamarine;
+    padding: 18px 40px;
+    background:
+        radial-gradient(600px 120px at 10% 0%, rgba(244, 166, 192, .14), transparent 70%),
+        radial-gradient(500px 120px at 90% 100%, rgba(201, 162, 75, .12), transparent 70%),
+        var(--preto);
 }
 
-.header-titulo { 
-    margin: 0; 
-    font-size: 1.8rem;
-    color: #1a5d3c;
+.header-titulo {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: .04em;
+    background: var(--dourado-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--dourado);
 }
 
-/* Estilo do Select no Topo */
-#oUsuario {
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #1a5d3c;
-    background-color: white;
-    color: #1a5d3c;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* --- NAV (Barra Verde) --- */
-.nav {
-    width: 100%;
-    background: linear-gradient(90deg, aquamarine, green);
-    padding: 0.5rem 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.3);
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.usuario-area {
     position: relative;
 }
 
-.nav__menu {
-    list-style: none;
+#oUsuario {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--fonte-texto);
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--branco);
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23c9a24b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center,
+        var(--preto-3);
+    border: 1px solid rgba(201, 162, 75, .5);
+    border-radius: 999px;
+    padding: 10px 40px 10px 20px;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+#oUsuario:hover,
+#oUsuario:focus {
+    outline: none;
+    border-color: var(--rosa);
+    box-shadow: 0 0 0 4px rgba(244, 166, 192, .18);
+}
+
+#oUsuario option {
+    background: var(--preto-2);
+    color: var(--branco);
+}
+
+/* ==========================================================
+   NAV
+   ========================================================== */
+.nav {
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 40px;
+    background: var(--preto-2);
+    border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.nav__menu {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
 }
 
 .nav__menu-item {
     position: relative;
 }
 
-/* 🛑 Oculta o item de menu "Cadastros" por padrão para quem não é gerente */
-#itemMenuCadastros {
-    display: none; 
-}
-
-/* 🟢 Exibe o item de menu "Cadastros" se o JS injetar esta classe */
-.gerente-acesso-total {
-    display: block !important; 
-}
-
-
-.nav__menu-item a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
+.nav__menu-item>a {
+    position: relative;
     display: block;
-    transition: background-color 0.3s;
-    border-radius: 4px;
+    padding: 18px 22px;
+    font-size: .76rem;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .85);
+    transition: var(--transicao);
 }
 
-.nav__menu-item a:hover {
-    background-color: rgba(0, 0, 0, 0.1); 
+.nav__menu-item>a::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 10px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--rosa), var(--dourado));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transicao);
 }
 
-/* Submenu (Dropdown) */
+.nav__menu-item:hover>a,
+.nav__menu-item:focus-within>a {
+    color: var(--branco);
+}
+
+.nav__menu-item:hover>a::after,
+.nav__menu-item:focus-within>a::after {
+    transform: scaleX(1);
+}
+
 .nav__submenu {
-    list-style: none;
     position: absolute;
     top: 100%;
     left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    display: none;
-    min-width: 180px;
-    text-align: left;
-    z-index: 100; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
-    border-radius: 4px;
-    padding: 5px 0;
+    min-width: 230px;
+    padding: 10px 0;
+    background: var(--branco);
+    border-radius: 0 0 var(--raio) var(--raio);
+    border-top: 3px solid var(--dourado);
+    box-shadow: var(--sombra-forte);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: var(--transicao);
+    z-index: 50;
 }
 
-/* 🟢 Estado HOVER: O submenu se torna visível (para 'About', etc.) */
-.nav__menu-item:hover > .nav__submenu { 
-    display: block;
+.nav__menu-item:hover>.nav__submenu,
+.nav__menu-item:focus-within>.nav__submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .nav__submenu-item a {
-    color: #1a5d3c;
-    padding: 0.8rem 1rem;
-    white-space: nowrap;
-    width: 100%;
     display: block;
+    padding: 12px 24px;
+    font-size: .86rem;
+    font-weight: 500;
+    color: var(--carvao);
+    border-left: 3px solid transparent;
+    transition: var(--transicao);
 }
 
 .nav__submenu-item a:hover {
-    background: aquamarine;
+    background: var(--rosa-suave);
+    border-left-color: var(--rosa-forte);
+    padding-left: 30px;
 }
 
-/* --- BOTÃO CARRINHO --- */
 .btn-ver-carrinho {
-    position: absolute;
-    right: 20px;
-    
-    background-color: #f59e0b;
-    color: white;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--preto);
+    background: var(--dourado-grad);
+    background-size: 200% 200%;
     border: none;
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: bold;
+    border-radius: 999px;
+    padding: 12px 26px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s;
-    white-space: nowrap;
+    box-shadow: 0 6px 18px rgba(201, 162, 75, .35);
+    transition: var(--transicao);
 }
 
 .btn-ver-carrinho:hover {
-    background-color: #d97706;
+    background-position: 100% 100%;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(232, 120, 159, .45);
 }
 
-/* --- CARROSSEL --- */
+.btn-ver-carrinho:active {
+    transform: translateY(0);
+}
+
+#contadorCarrinho {
+    display: inline-block;
+    min-width: 24px;
+    padding: 2px 8px;
+    margin-left: 2px;
+    text-align: center;
+    font-size: .76rem;
+    color: var(--branco);
+    background: var(--preto);
+    border-radius: 999px;
+}
+
+/* ==========================================================
+   MAIN — VITRINE
+   ========================================================== */
 main {
-    flex-grow: 1; 
-    padding: 2rem 0;
-    background-color: #f9f9f9;
+    flex: 1;
+    padding: 70px 40px 100px;
+    background: var(--branco);
 }
 
+/* ---------- Título da seção: "Em alta agora" ----------
+   Uso: <h2 class="secao-titulo">Em alta <span>agora</span></h2> */
+.secao-titulo {
+    text-align: center;
+    font-family: var(--fonte-texto);
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    color: var(--carvao);
+    margin-bottom: 70px;
+}
+
+.secao-titulo span,
+.secao-titulo em {
+    font-style: normal;
+    font-weight: 200;
+    background: var(--dourado-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Container ---------- */
 .carrossel-container {
     position: relative;
-    max-width: 95%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 20px 50px;
 }
 
 .carrossel-wrapper {
     display: flex;
+    gap: 40px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px 0;
-    gap: 20px;
+    scroll-behavior: smooth;
+    padding: 30px 4px 20px;
     scrollbar-width: none;
 }
 
@@ -179,130 +339,384 @@ main {
     display: none;
 }
 
-/* BOTÕES DE NAVEGAÇÃO (< e >) */
-.nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
+.mensagem-info {
+    width: 100%;
+    padding: 70px 20px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: .04em;
+    color: var(--cinza);
+    border: 1px dashed var(--dourado);
+    border-radius: var(--raio);
 }
 
-.nav-btn:hover {
-    background: rgba(0, 0, 0, 0.9);
-}
-
-.prev {
-    left: 0;
-}
-
-.next {
-    right: 0;
-}
-
-
-/* --- CARDS DE PRODUTO E FOOTER --- */
-.produto-card {
-    flex: 0 0 auto;
-    width: 280px;
-    padding: 20px;
-    background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* ==========================================================
+   CARD DE PRODUTO
+   Funciona para qualquer filho direto do carrossel
+   (ou para .produto-card, se você criar com essas classes)
+   ========================================================== */
+.carrossel-wrapper>*:not(.mensagem-info) {
+    flex: 0 0 calc((100% - 160px) / 5);
+    min-width: 220px;
     scroll-snap-align: start;
-    transition: transform 0.3s ease;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border: 1px solid #eee;
-}
-
-.produto-card:hover {
-    transform: translateY(-5px);
-}
-
-.card-imagem {
-    width: 180px;
-    height: 180px;
-    object-fit: contain;
-    margin-bottom: 15px;
-    background-color: white;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.card-titulo {
-    font-size: 1.4rem;
-    color: #0c4a6e;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.card-detalhe {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.card-preco {
-    font-size: 1.2rem;
-    color: #047857;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.card-selecao-quantidade {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
-}
-
-.input-quantidade {
-    width: 60px;
-    padding: 5px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.btn-carrinho {
-    width: 100%;
-    background-color: #10b981;
-    color: white;
+    gap: 12px;
+    background: transparent;
     border: none;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
+    box-shadow: none;
 }
 
-.btn-carrinho:hover {
-    background-color: #059669;
-}
-
-footer {
-    padding: 1rem;
-    background: #f0f0f0;
+/* ---------- Imagem ---------- */
+.carrossel-wrapper img {
     width: 100%;
-    margin-top: auto; 
-    border-top: 1px solid #e0e0e0;
-    color: #666;
+    height: 280px;
+    object-fit: contain;
+    margin-bottom: 18px;
+    background: transparent;
+    transition: transform .5s cubic-bezier(.4, 0, .2, 1);
 }
 
-.mensagem-info {
-    width: 100%; 
-    padding: 20px;
+.carrossel-wrapper>*:hover img {
+    transform: translateY(-8px) scale(1.04);
+}
+
+/* ---------- Selos (badges) ----------
+   <span class="badge">BEST SELLERS</span>
+   <span class="badge badge--promo">SPECIAL PROMO %</span> */
+.badge,
+.produto-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    white-space: nowrap;
+    padding: 7px 28px;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--branco);
+    background: var(--rosa);
+    border-radius: 999px;
+}
+
+.badge--promo,
+.produto-badge--promo {
+    top: auto;
+    bottom: auto;
+    background: var(--branco);
+    color: var(--carvao);
+    border: 2px solid var(--dourado);
+}
+
+.badge--ouro {
+    background: var(--dourado-grad);
+    color: var(--preto);
+}
+
+/* ---------- Textos ---------- */
+.produto-desc,
+.carrossel-wrapper p {
+    font-size: .82rem;
+    font-weight: 300;
+    line-height: 1.35;
+    color: var(--carvao);
+    min-height: 2.7em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.produto-nome,
+.carrossel-wrapper h2,
+.carrossel-wrapper h3,
+.carrossel-wrapper h4 {
+    font-family: var(--fonte-texto);
+    font-size: 1.12rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--carvao);
+    min-height: 2.5em;
+}
+
+/* ---------- Estrelas ---------- */
+.produto-estrelas {
+    font-size: .85rem;
+    letter-spacing: .12em;
+    color: var(--carvao);
+}
+
+.produto-estrelas small {
+    margin-left: 6px;
+    font-size: .78rem;
+    letter-spacing: 0;
+    font-weight: 400;
+    color: var(--carvao);
+}
+
+/* ---------- Preço ---------- */
+.produto-preco,
+.preco,
+.carrossel-wrapper strong {
+    font-family: var(--fonte-texto);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--carvao);
+}
+
+.produto-preco .desconto {
+    margin-right: 8px;
+    color: var(--rosa-promo);
+}
+
+.produto-preco .antigo {
+    margin-left: 8px;
+    font-weight: 300;
+    font-size: .95rem;
+    text-decoration: line-through;
+    color: var(--cinza);
+}
+
+/* ---------- Pílula de tonalidades ---------- */
+.produto-tons {
+    padding: 5px 16px;
+    font-size: .85rem;
+    font-weight: 300;
+    color: var(--carvao);
+    border: 1px solid var(--cinza-claro);
+    border-radius: 999px;
+}
+
+/* ---------- Ações: botão + coração ---------- */
+.produto-acoes {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+/* botão principal (também vale para qualquer <button> solto no card) */
+.btn-add-carrinho,
+.carrossel-wrapper>*:not(.mensagem-info)>button {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: .95rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: var(--branco);
+    background: var(--carvao);
+    border: none;
+    border-radius: var(--raio);
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-add-carrinho:hover,
+.carrossel-wrapper>*:not(.mensagem-info)>button:hover {
+    background: var(--preto);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .3);
+    transform: translateY(-2px);
+}
+
+.btn-add-carrinho:active {
+    transform: translateY(0);
+}
+
+/* botão de favoritar */
+.btn-favorito {
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    font-size: 1.3rem;
+    line-height: 1;
+    color: var(--carvao);
+    background: var(--branco);
+    border: none;
+    border-radius: var(--raio);
+    box-shadow: var(--sombra-leve);
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-favorito:hover,
+.btn-favorito.ativo {
+    color: var(--rosa-promo);
+    transform: scale(1.08);
+}
+
+/* ==========================================================
+   SETAS (prev / next)
+   ========================================================== */
+.nav-btn {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--carvao);
+    background: var(--branco);
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--sombra-leve);
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.nav-btn.prev {
+    left: -18px;
+}
+
+.nav-btn.next {
+    right: -18px;
+}
+
+.nav-btn:hover {
+    background: var(--carvao);
+    color: var(--dourado-claro);
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .3);
+}
+
+.nav-btn:active {
+    transform: translateY(-50%) scale(.95);
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+footer {
+    position: relative;
+    padding: 34px 20px;
+    text-align: center;
+    font-size: .74rem;
+    font-weight: 400;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .7);
+    background: var(--preto);
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--dourado-grad);
+}
+
+footer p::before {
+    content: "✦ ";
+    color: var(--rosa);
+}
+
+footer p::after {
+    content: " ✦";
+    color: var(--rosa);
+}
+
+/* ==========================================================
+   RESPONSIVO
+   ========================================================== */
+@media (max-width: 1200px) {
+    .carrossel-wrapper>*:not(.mensagem-info) {
+        flex-basis: calc((100% - 80px) / 3);
+    }
+}
+
+@media (max-width: 900px) {
+
+    .topo,
+    .nav {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .nav {
+        flex-direction: column;
+        align-items: stretch;
+        padding-bottom: 16px;
+    }
+
+    .nav__menu {
+        justify-content: center;
+    }
+
+    .btn-ver-carrinho {
+        width: 100%;
+    }
+
+    main {
+        padding: 50px 20px 70px;
+    }
+
+    .secao-titulo {
+        margin-bottom: 50px;
+    }
+
+    .carrossel-wrapper {
+        gap: 24px;
+    }
+
+    .carrossel-wrapper>*:not(.mensagem-info) {
+        flex-basis: calc((100% - 24px) / 2);
+    }
+
+    .nav-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .nav-btn.prev {
+        left: -8px;
+    }
+
+    .nav-btn.next {
+        right: -8px;
+    }
+}
+
+@media (max-width: 560px) {
+    .topo {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+    }
+
+    .nav__menu-item>a {
+        padding: 12px 14px;
+        font-size: .7rem;
+    }
+
+    .carrossel-wrapper>*:not(.mensagem-info) {
+        flex-basis: 78%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
 }
