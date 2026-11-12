@@ -54,7 +54,7 @@ exports.verificaSeUsuarioEstaLogado = (req, res) => {
         //   mensagem: 'Usuário não autenticado.'
         // });
 
-        res.redirect('/login');
+        res.json({ status: 'nao_logado', mensagem: 'Usuário não autenticado.' });
     }
 }
 exports.verificarEmail = async (req, res) => {
@@ -190,10 +190,52 @@ exports.logout = (req, res) => {
 }
 
 
+// Cadastro feito pela tela de cadastro: cria a pessoa e já registra como cliente
+exports.cadastrar = async (req, res) => {
+    const { nome, usuario, email, cpf, dataNascimento, telefone, senha } = req.body || {};
+
+    if (!nome || !usuario || !email || !cpf || !senha || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ status: 'dados_invalidos' });
+    }
+
+    try {
+        const jaExiste = async (coluna, valor) => {
+            const r = await db.query(`SELECT 1 FROM pessoa WHERE ${coluna} = $1 LIMIT 1`, [valor]);
+            return r.rows.length > 0;
+        };
+
+        if (await jaExiste('email_pessoa', email)) return res.status(409).json({ status: 'email_existe' });
+        if (await jaExiste('cpf_pessoa', cpf)) return res.status(409).json({ status: 'cpf_existe' });
+        if (await jaExiste('usuario_pessoa', usuario)) return res.status(409).json({ status: 'usuario_existe' });
+
+        await db.transaction(async (client) => {
+            await client.query(
+                `INSERT INTO pessoa (cpf_pessoa, nome_pessoa, data_nascimento_pessoa, senha_pessoa,
+                                     email_pessoa, usuario_pessoa, telefone_pessoa)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                [cpf, nome, dataNascimento || null, senha, email, usuario, telefone || null]
+            );
+            await client.query(
+                'INSERT INTO cliente (pessoa_cpf_pessoa, data_cadastro_cliente) VALUES ($1, CURRENT_DATE)',
+                [cpf]
+            );
+        });
+
+        res.status(201).json({ status: 'ok' });
+    } catch (error) {
+        console.error('Erro em cadastrar:', error);
+        if (error.code === '23505') {
+            const status = (error.constraint || '').includes('email') ? 'email_existe' : 'cpf_existe';
+            return res.status(409).json({ status });
+        }
+        res.status(500).json({ status: 'erro' });
+    }
+};
+
 exports.criarPessoa = async (req, res) => {
     //  console.log('Criando pessoa com dados:', req.body);
     try {
-        const { cpf_pessoa, nome_pessoa, email_pessoa, senha_pessoa, primeiro_acesso_pessoa = true, data_nascimento } = req.body;
+        const { cpf_pessoa, nome_pessoa, email_pessoa, senha_pessoa, data_nascimento_pessoa } = req.body;
 
         // Validação básica
         if (!nome_pessoa || !email_pessoa || !senha_pessoa) {
@@ -211,8 +253,8 @@ exports.criarPessoa = async (req, res) => {
         }
 
         const result = await db.query(
-            'INSERT INTO pessoa (cpf_pessoa, nome_pessoa, email_pessoa, senha_pessoa, primeiro_acesso_pessoa, data_nascimento) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [cpf_pessoa, nome_pessoa, email_pessoa, senha_pessoa, primeiro_acesso_pessoa, data_nascimento]
+            'INSERT INTO pessoa (cpf_pessoa, nome_pessoa, email_pessoa, senha_pessoa, data_nascimento_pessoa) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [cpf_pessoa, nome_pessoa, email_pessoa, senha_pessoa, data_nascimento_pessoa || null]
         );
 
         res.status(201).json(result.rows[0]);

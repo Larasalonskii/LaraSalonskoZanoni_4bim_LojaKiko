@@ -1,29 +1,27 @@
-/* Ajustes específicos da tela de cadastro.
-   O visual base (cores, fundo, botões) continua vindo do login.css. */
-
 .form-container.cadastro {
-    max-height: 90vh;
-    overflow-y: auto;
+    width: min(100%, 560px);
+    max-height: calc(100vh - 32px);
+    overflow-y: auto
 }
 
 .form-container.cadastro label {
-    display: block;
-    margin-top: 10px;
+    margin-top: 4px
+}
+
+.form-container.cadastro input {
+    margin-bottom: 14px
 }
 
 .link-login {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-.link-login a {
-    text-decoration: none;
-    font-weight: bold;
+    margin-top: 18px !important
 }
 
 #mensagem {
-    text-align: center;
-    margin-top: 10px;
-    min-height: 1.2em;
+    text-align: center
+}
+
+@media(max-width:520px) {
+    .form-container.cadastro {
+        max-height: calc(100vh - 20px)
+    }
 }

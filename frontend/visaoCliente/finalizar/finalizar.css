@@ -1,242 +1,178 @@
-/* Reset básico */
+/* CandyShop — Conferir compra */
+:root {
+    --bg: #fcf8f6;
+    --surface: #fffdfc;
+    --soft: #f7ece8;
+    --text: #30282a;
+    --muted: #796c6f;
+    --pink: #c47d89;
+    --pink-dark: #9f5b67;
+    --border: #eadbd7;
+    --shadow: 0 14px 40px rgba(79, 52, 55, .10)
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: white;
-    color: #333;
-    /* Remove text-align: center; do body se quiser centralizar apenas o conteúdo principal */
-    /* Deixei, pois centraliza o h1 "Confirmar compra" */
-    text-align: center;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 60px;
+    font-family: "DM Sans", Arial, sans-serif;
+    color: var(--text);
+    background: radial-gradient(circle at 5% 0%, rgba(243, 223, 226, .8), transparent 28%), var(--bg)
 }
 
-/* Cabeçalho */
 header {
-    padding: 0rem 0rem 0rem 0rem;
-    background-color: aquamarine;
-    margin-bottom: 20px;
-    /* Adicionado para separar o header do conteúdo */
+    padding: 18px clamp(14px, 3vw, 42px) 18px
 }
 
-header h1 {
-    margin-bottom: 0rem;
-    font-size: 1.8rem;
-    color: #1a5d3c;
+.topo,
+.nav {
+    width: min(100%, 1200px);
+    margin: auto;
+    background: rgba(255, 253, 252, .92);
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 20px rgba(79, 52, 55, .06)
 }
 
 .topo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    padding: 0.1rem 1.5rem 1.5rem 0.1rem;
+    padding: 22px 32px;
+    border-radius: 26px
 }
 
-.topo h3 {
+.topo h1 {
     margin: 0;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    letter-spacing: -.04em
 }
 
-/* Menu principal */
 .nav {
-    background: linear-gradient(90deg, aquamarine, green);
-    padding: 0.5rem 0;
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 20px
 }
 
 .nav__menu {
-    list-style: none;
     display: flex;
     justify-content: center;
-    gap: 2rem;
-}
-
-.nav__menu-item {
-    position: relative;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none
 }
 
 .nav__menu-item a {
-    color: white;
+    display: block;
+    padding: 12px 18px;
+    color: var(--muted);
     text-decoration: none;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    display: block;
+    border-radius: 12px;
+    font-size: .78rem;
+    font-weight: 800;
+    text-transform: uppercase
 }
 
-/* Submenu */
-.nav__submenu {
-    list-style: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    display: none;
-    min-width: 180px;
-    text-align: left;
+.nav__menu-item a:hover {
+    color: var(--pink-dark);
+    background: var(--soft)
 }
 
-.nav__submenu-item a {
-    color: #1a5d3c;
-    padding: 0.5rem 1rem;
-    display: block;
-}
-
-.nav__submenu-item a:hover {
-    background: aquamarine;
-}
-
-/* Hover para mostrar submenu */
-.nav__menu-item:hover .nav__submenu {
-    display: block;
-}
-
-/* ======= Tabela (Centralização) ======= */
 #lista-finalizar {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(13, 148, 136, 0.1);
-    width: 90%;
-    max-width: 800px;
+    width: min(calc(100% - 32px), 1000px);
+    margin: 18px auto 0;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    margin-left: auto;
-    /* NOVO */
-    margin-right: auto;
-    /* NOVO */
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: var(--shadow)
+}
+
+#lista-finalizar th,
+#lista-finalizar td {
+    padding: 16px;
+    border-bottom: 1px solid #f0e7e4;
+    text-align: left
 }
 
 #lista-finalizar thead {
-    background-color: #0d9488;
-    color: white;
-}
-
-#lista-finalizar th {
-    padding: 15px 12px;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 2px solid #0d9488;
-}
-
-#lista-finalizar td {
-    padding: 12px;
-    border-bottom: 1px solid #e0f2f1;
+    background: var(--soft);
+    color: var(--pink-dark);
+    font-size: .78rem;
+    text-transform: uppercase
 }
 
 #lista-finalizar tbody tr:hover {
-    background-color: #f0fdfa;
+    background: #fcf6f4
 }
 
-/* Alinhamento das colunas de valores à direita */
-/* Seleciona o cabeçalho das colunas "Código", "Preço" e "Subtotal" (1ª, 3ª e 5ª) */
 #lista-finalizar th:nth-child(1),
 #lista-finalizar th:nth-child(3),
-#lista-finalizar th:nth-child(5) {
-    text-align: right;
-}
-
-/* Seleciona as células de dados das colunas "Código", "Preço" e "Subtotal" */
+#lista-finalizar th:nth-child(5),
 #lista-finalizar td:nth-child(1),
 #lista-finalizar td:nth-child(3),
 #lista-finalizar td:nth-child(5) {
-    text-align: right;
+    text-align: right
 }
 
-/* ======= Total (Centralização) ======= */
 #total-final {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #0d9488;
-    margin-top: 20px;
+    width: min(calc(100% - 32px), 1000px);
+    margin: 24px auto 0;
+    padding: 20px 24px;
+    background: var(--pink-light, #f3dfe2);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    color: var(--pink-dark);
     text-align: right;
-    width: 90%;
-    max-width: 800px;
-    margin-left: auto;
-    /* NOVO */
-    margin-right: auto;
-    /* NOVO */
+    font-size: 1.35rem
 }
 
-/* ======= Botões e Container de Botões (Centralização) ======= */
 .container-botoes {
+    width: min(calc(100% - 32px), 1000px);
+    margin: 18px auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    max-width: 800px;
-    margin-top: 25px;
-    margin-left: auto;
-    /* NOVO */
-    margin-right: auto;
-    /* NOVO */
+    gap: 12px
 }
 
-button {
-    background-color: #0d9488;
+.container-botoes button {
+    min-height: 48px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--pink-dark);
     color: #fff;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
+    font-weight: 800;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 0;
+    box-shadow: 0 8px 18px rgba(159, 91, 103, .16);
+    transition: .25s
 }
 
-button:hover {
-    background-color: #0f766e;
+.container-botoes button:first-child {
+    background: #eee3df;
+    color: #68575a;
+    box-shadow: none
 }
 
-/* ======= Responsividade ======= */
-@media (max-width: 600px) {
-    body {
-        padding: 20px 10px;
-    }
+.container-botoes button:hover {
+    transform: translateY(-2px)
+}
 
+@media(max-width:650px) {
     #lista-finalizar {
-        width: 95%;
-        font-size: 0.9rem;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap
     }
 
-    #lista-finalizar th,
-    #lista-finalizar td {
-        padding: 8px 6px;
-    }
-
-    h1 {
-        font-size: 1.4rem;
-    }
-
-    #total-final {
-        font-size: 1.2rem;
-    }
-
-    /* Ajuste responsivo dos botões */
     .container-botoes {
-        width: 95%;
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: column
     }
 
     .container-botoes button {
-        width: 100%;
-        padding: 12px;
-    }
-
-    /* Alinhamento da tabela em telas pequenas (mantido) */
-    #lista-finalizar th:nth-child(1),
-    #lista-finalizar th:nth-child(3),
-    #lista-finalizar th:nth-child(5) {
-        text-align: right;
-    }
-
-    #lista-finalizar td:nth-child(1),
-    #lista-finalizar td:nth-child(3),
-    #lista-finalizar td:nth-child(5) {
-        text-align: right;
+        width: 100%
     }
 }

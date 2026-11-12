@@ -22,7 +22,7 @@ async function verificarEmail() {
     } else {
         const cadastrar = confirm("E-mail não encontrado. Deseja se cadastrar?");
         if (cadastrar) {
-            window.location.href = "cadastro.html?email=" + encodeURIComponent(email);
+            window.location.href = "/login/cadastro/cadastro.html?email=" + encodeURIComponent(email);
         }
     }
 }

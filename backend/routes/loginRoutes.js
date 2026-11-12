@@ -24,6 +24,7 @@ router.get('/logout', loginController.logout);
 
 // Rotas 
 //router.get('/', loginController.listarPessoas);
+router.post('/cadastrar', loginController.cadastrar);
 router.post('/', loginController.criarPessoa);
 router.get('/:id', loginController.obterPessoa);
 // router.put('/:id', loginController.atualizarPessoa);

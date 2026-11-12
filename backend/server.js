@@ -98,6 +98,12 @@ app.use('/forma_pagamento', forma_pagamentoRoutes);
 const produtoRoutes = require('./routes/produtoRoutes');
 app.use('/produto', produtoRoutes);
 
+const colecaoRoutes = require('./routes/colecaoRoutes');
+app.use('/colecao', colecaoRoutes);
+
+const tomRoutes = require('./routes/tomRoutes');
+app.use('/tom', tomRoutes);
+
 const pedidoRoutes = require('./routes/pedidoRoutes');
 app.use('/pedido', pedidoRoutes);
 

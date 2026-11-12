@@ -18,7 +18,6 @@ async function verificarAutorizacao() {
         const usuarioObjeto = JSON.parse(oUsuario.usuario || '{}');
         const oCargo = usuarioObjeto.ehFuncionario ? usuarioObjeto.ehFuncionario.nome_cargo : 'Cliente';
 
-        alert(usuarioObjeto)
 
         document.getElementById("oUsuario").options[0].text = `${usuarioObjeto.nome} - ${oCargo}`;
         return true;

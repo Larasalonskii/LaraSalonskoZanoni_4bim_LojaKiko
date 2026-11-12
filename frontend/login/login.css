@@ -1,92 +1,162 @@
-/* === CONTAINER MASTER === */
-body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+/* CandyShop — Login */
+:root {
+    --bg: #fcf8f6;
+    --surface: #fffdfc;
+    --soft: #f7ece8;
+    --text: #30282a;
+    --muted: #796c6f;
+    --pink: #c47d89;
+    --pink-dark: #9f5b67;
+    --pink-light: #f3dfe2;
+    --border: #eadbd7;
+    --shadow: 0 20px 55px rgba(79, 52, 55, .12);
+    --r: 26px
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0
+}
+
+body {
+    font-family: "DM Sans", Arial, sans-serif;
+    color: var(--text);
+    background: radial-gradient(circle at 8% 8%, #f3dfe2 0, transparent 28%), radial-gradient(circle at 92% 90%, #f2e4de 0, transparent 30%), var(--bg)
 }
 
 .master-container {
+    min-height: 100vh;
+    padding: 24px;
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* centraliza verticalmente */
-    align-items: center;     /* centraliza horizontalmente */
-    min-height: 100vh;       /* ocupa toda a altura da janela */
-    background: linear-gradient(135deg, #d4fcdc, #b8e7b8);
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, .35), transparent)
 }
 
-
-
-/* ===== CONTAINER PRINCIPAL ===== */
 .form-container {
-    width: 90%;
-    max-width: 450px;
-    min-height: 50vh;
-    background: white;
-    border-radius: 12px;
-    padding: 2.5rem;
-    box-shadow: 0 4px 15px rgba(45, 74, 45, 0.1);
-    border: 1px solid #011601;
-
-    /* Flexbox centraliza os filhos */
+    width: min(100%, 460px);
+    padding: 42px 38px;
+    background: rgba(255, 253, 252, .92);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
     display: flex;
-    flex-direction: column;
-    align-items: center; /* centraliza horizontalmente os blocos */
-    justify-content: center; /* centraliza verticalmente */
+    flex-direction: column
 }
 
-/* ===== TÍTULO ===== */
 .form-container h2 {
-    color: #2d4a2d;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center;
+    margin: 0 0 28px;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 2.35rem;
+    letter-spacing: -.04em;
+    text-align: center
 }
 
-/* ===== TEXTOS (p e label) ===== */
-.form-container label,
+.form-container h2::first-letter {
+    color: var(--pink)
+}
+
+.form-container label {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-size: .84rem;
+    font-weight: 750
+}
+
 .form-container p {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #2d4a2d;
-    text-align: center;
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto 0.75rem auto; /* centraliza o bloco */
-    display: block; /* garante comportamento consistente */
+    color: var(--muted);
+    line-height: 1.5
 }
 
-/* ===== INPUT ===== */
 .form-container input {
     width: 100%;
-    max-width: 320px;
-    padding: 0.8rem;
-    border: 2px solid #0ba10b;
-    border-radius: 6px;
-    font-size: 1rem;
-    background: white;
-    text-align: center;
-    margin: 0 auto 1.5rem auto;
-    display: block;
+    min-height: 52px;
+    margin: 0 0 18px;
+    padding: 0 16px;
+    color: var(--text);
+    background: var(--soft);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    font: inherit;
+    transition: .25s
 }
 
-/* ===== BOTÃO ===== */
+.form-container input:focus {
+    background: #fff;
+    border-color: var(--pink);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(196, 125, 137, .1)
+}
+
 .form-container button {
-    width: 100%;
-    max-width: 320px;
-    padding: 0.8rem 1.5rem;
-    border: 1px solid #2d4a2d;
-    border-radius: 6px;
-    font-weight: 600;
+    min-height: 52px;
+    margin-top: 4px;
+    border: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+    color: #fff;
+    font: 800 .85rem "DM Sans", Arial, sans-serif;
+    letter-spacing: .03em;
     cursor: pointer;
-    background: linear-gradient(135deg, aquamarine, #40e0d0);
-    color: #2d4a2d;
-    text-align: center;
-    margin: 0 auto;
-    display: block;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 10px 22px rgba(159, 91, 103, .2);
+    transition: .25s
 }
 
 .form-container button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 28px rgba(159, 91, 103, .28)
+}
+
+.link-cadastro,
+.link-login {
+    text-align: center;
+    margin: 22px 0 0 !important;
+    font-size: .9rem
+}
+
+.link-cadastro a,
+.link-login a {
+    color: var(--pink-dark);
+    font-weight: 800;
+    text-decoration: none
+}
+
+.link-cadastro a:hover,
+.link-login a:hover {
+    text-decoration: underline
+}
+
+#nomeUsuario {
+    text-align: center;
+    margin: -10px 0 18px
+}
+
+.message-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 10;
+    width: min(360px, calc(100% - 40px));
+    text-align: center
+}
+
+@media(max-width:520px) {
+    .master-container {
+        padding: 14px
+    }
+
+    .form-container {
+        padding: 32px 22px;
+        border-radius: 22px
+    }
+
+    .form-container h2 {
+        font-size: 2rem
+    }
 }

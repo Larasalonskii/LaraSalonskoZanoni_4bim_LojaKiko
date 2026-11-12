@@ -95,7 +95,7 @@ async function cadastrar() {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/cadastro/cadastrar`, {
+        const response = await fetch(`${API_BASE_URL}/login/cadastrar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
@@ -107,7 +107,7 @@ async function cadastrar() {
         switch (data.status) {
             case 'ok':
                 mostrarMensagem("Cadastro realizado com sucesso! Redirecionando para o login...", 'sucesso');
-                setTimeout(() => { window.location.href = "login.html"; }, 1500);
+                setTimeout(() => { window.location.href = "/login/login.html"; }, 1500);
                 break;
             case 'email_existe':
                 mostrarMensagem("Este e-mail já está cadastrado.");
