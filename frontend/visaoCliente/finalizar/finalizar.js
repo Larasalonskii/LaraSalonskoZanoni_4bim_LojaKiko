@@ -1,85 +1,142 @@
 
 let valorTotal = 0;
+
 const API_BASE_URL = 'http://localhost:3001';
 
+// ======================================================
+// OBTER CARRINHO
+// ======================================================
+
+function obterCarrinho() {
+    try {
+        return JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    } catch (error) {
+        console.error('Erro ao ler carrinho:', error);
+        return [];
+    }
+}
+
+// ======================================================
+// FORMATAR PREÇO
+// ======================================================
+
+function formatarPreco(valor) {
+    return Number(valor).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+}
+
+// ======================================================
+// CARREGAR TELA DE FINALIZAÇÃO
+// ======================================================
+
 function carregarFinalizar() {
+
     const tbodyLista = document.getElementById('listaFinalizar');
-    const carrinho = JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    const carrinho = obterCarrinho();
 
     tbodyLista.innerHTML = '';
 
     let total = 0;
 
+    const botaoFinalizar =
+        document.getElementById('btn-finalizar');
+
     if (carrinho.length === 0) {
+
         tbodyLista.innerHTML = `
             <tr>
-                <td colspan="5" style="text-align: center; padding: 20px;">
+                <td colspan="5" style="text-align:center; padding:20px;">
                     Carrinho vazio. Volte e adicione itens.
                 </td>
             </tr>
         `;
 
-        document.getElementById('btn-finalizar').disabled = true;
+        botaoFinalizar.disabled = true;
+
         document.getElementById('total-final').textContent =
             'Total Final: R$ 0,00';
+
+        valorTotal = 0;
 
         return;
     }
 
-    document.getElementById('btn-finalizar').disabled = false;
+    botaoFinalizar.disabled = false;
 
     carrinho.forEach(prod => {
-        const codigo = prod.codigo || prod.id || '(sem código)';
 
-        // O preço está sendo considerado como valor por KG
-        const subtotal = prod.preco * (prod.quantidade / 1000);
+        const codigo = prod.id_produto_tom || prod.id || prod.codigo;
+
+        const quantidade = Number(prod.quantidade);
+
+        const preco = Number(prod.preco);
+
+        if (
+            !codigo ||
+            !Number.isInteger(quantidade) ||
+            quantidade < 1 ||
+            !Number.isFinite(preco) ||
+            preco < 0
+        ) {
+            throw new Error(
+                `Produto com dados inválidos: ${prod.nome || 'Sem nome'}`
+            );
+        }
+
+        // PREÇO POR UNIDADE
+        const subtotal = preco * quantidade;
+
         total += subtotal;
 
         const linha = document.createElement('tr');
 
-        linha.innerHTML = `
-            <td>${codigo}</td>
-            <td>${prod.nome}</td>
-            <td>R$ ${Number(prod.preco).toFixed(2)}/kg</td>
-            <td>${prod.quantidade} g</td>
-            <td>R$ ${subtotal.toFixed(2)}</td>
-        `;
+        const valores = [
+            codigo,
+            prod.nome,
+            `${formatarPreco(preco)} / unidade`,
+            `${quantidade} unidade(s)`,
+            formatarPreco(subtotal)
+        ];
+
+        valores.forEach(valor => {
+            const td = document.createElement('td');
+            td.textContent = valor;
+            linha.appendChild(td);
+        });
 
         tbodyLista.appendChild(linha);
     });
 
     document.getElementById('total-final').textContent =
-        `Valor total: R$ ${total.toFixed(2)}`;
+        `Valor total: ${formatarPreco(total)}`;
 
     valorTotal = total;
 }
 
+// ======================================================
+// PREPARAR ITENS DO PEDIDO
+// ======================================================
 
 function obterCarrinhoDoStorage(idPedido) {
-    try {
-        const carrinhoData =
-            JSON.parse(sessionStorage.getItem('carrinho')) || [];
+    const carrinho = obterCarrinho();
 
-        return carrinhoData.map(item => ({
-            id_pedido: idPedido,
-            id_produto: item.id || item.codigo,
-            nome_produto: item.nome,
-            preco: Number(item.preco),
-            quantidade: Number(item.quantidade)
-        }));
-
-    } catch (error) {
-        console.error('Erro ao processar dados do carrinho:', error);
-        return [];
-    }
+    return carrinho.map(item => ({
+        pedido_id_pedido: Number(idPedido),
+        produto_tom_id_produto_tom: Number(item.id_produto_tom),
+        quantidade: Number(item.quantidade),
+        preco_unitario: Number(item.preco)
+    }));
 }
 
-
-// ======== Envia o pedido ao backend ========
+// ======================================================
+// ENVIAR PEDIDO AO BANCO
+// ======================================================
 
 async function enviarDadosParaBD() {
-    const carrinho =
-        JSON.parse(sessionStorage.getItem('carrinho')) || [];
+
+    const carrinho = obterCarrinho();
 
     if (carrinho.length === 0) {
         alert('O carrinho está vazio.');
@@ -90,27 +147,71 @@ async function enviarDadosParaBD() {
         document.getElementById('btn-finalizar');
 
     try {
+
+        // Recalcular total antes de enviar
+        valorTotal = carrinho.reduce((total, item) => {
+            return total +
+                (Number(item.preco) * Number(item.quantidade));
+        }, 0);
+
+        // Validar itens
+        for (const item of carrinho) {
+
+            const id = item.id_produto_tom;
+
+            if (
+                !id ||
+                !Number.isInteger(Number(item.quantidade)) ||
+                Number(item.quantidade) < 1 ||
+                !Number.isFinite(Number(item.preco)) ||
+                Number(item.preco) < 0
+            ) {
+                throw new Error(
+                    `Dados inválidos no produto: ${item.nome}`
+                );
+            }
+        }
+
         botaoFinalizar.disabled = true;
         botaoFinalizar.textContent = 'Finalizando...';
 
-        /*
-         * IMPORTANTE:
-         * Substitua '1' pelo CPF real do cliente logado.
-         * Se o banco não possuir um cliente com CPF 1,
-         * o pedido pode dar erro.
-         */
+        console.log('CARRINHO:', carrinho);
+
+        // ==============================================
+        // DATA DO PEDIDO
+        // ==============================================
+
+        const hoje = new Date();
+
+        const dataAtual = [
+            hoje.getFullYear(),
+            String(hoje.getMonth() + 1).padStart(2, '0'),
+            String(hoje.getDate()).padStart(2, '0')
+        ].join('-');
+
+        // ==============================================
+        // CRIAR PEDIDO
+        // ==============================================
+
         const pedido = {
-            data_pedido: new Date().toISOString(),
+
+            data_pedido: dataAtual,
+
             cliente_pessoa_cpf_pessoa: '1',
 
+            funcionario_pessoa_cpf_pessoa: '14',
+
+            // Agora são unidades, não gramas.
             itens: carrinho.map(item => ({
-                id_produto: item.id || item.codigo,
-                peso_gramas: Number(item.quantidade),
-                preco_unitario_kg: Number(item.preco)
-            }))
+    produto_tom_id: Number(item.id_produto_tom),
+    quantidade: Number(item.quantidade)
+}))
         };
 
-        // ======== CRIAR PEDIDO ========
+        console.log(
+            'PEDIDO ENVIADO:',
+            JSON.stringify(pedido, null, 2)
+        );
 
         const resposta = await fetch(
             `${API_BASE_URL}/pedido`,
@@ -123,14 +224,12 @@ async function enviarDadosParaBD() {
             }
         );
 
-        // Tenta ler a resposta do backend
-        const dadosResposta = await resposta.json().catch(() => null);
+        const dadosResposta =
+            await resposta.json().catch(() => null);
 
         if (!resposta.ok) {
-            console.error(
-                'Erro retornado pelo servidor:',
-                dadosResposta
-            );
+
+            console.error('ERRO AO CRIAR PEDIDO:', dadosResposta);
 
             throw new Error(
                 dadosResposta?.error ||
@@ -141,72 +240,26 @@ async function enviarDadosParaBD() {
 
         const dados = dadosResposta;
 
-        console.log('Pedido criado com sucesso:', dados);
+        console.log('PEDIDO CRIADO:', dados);
 
         if (!dados || !dados.id_pedido) {
             throw new Error(
-                'O servidor criou o pedido, mas não retornou o ID do pedido.'
+                'O servidor não retornou o ID do pedido.'
             );
         }
 
+        
 
-        // ======== PREPARAR ITENS ========
-
-        const dadosItensDoPedido =
-            obterCarrinhoDoStorage(dados.id_pedido);
-
-        if (dadosItensDoPedido.length === 0) {
-            throw new Error(
-                'Não foi possível recuperar os itens do carrinho.'
-            );
-        }
-
-        console.log(
-            'Itens que serão enviados:',
-            dadosItensDoPedido
-        );
-
-
-        // ======== SALVAR ITENS DO PEDIDO ========
-
-        const respostaItens = await fetch(
-            `${API_BASE_URL}/pedido_has_produto/lote`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dadosItensDoPedido)
-            }
-        );
-
-        const dadosItensResposta =
-            await respostaItens.json().catch(() => null);
-
-        if (!respostaItens.ok) {
-            console.error(
-                'Erro ao inserir itens:',
-                dadosItensResposta
-            );
-
-            throw new Error(
-                dadosItensResposta?.error ||
-                dadosItensResposta?.message ||
-                `Erro ao salvar itens. Status: ${respostaItens.status}`
-            );
-        }
-
-        console.log(
-            'Itens inseridos com sucesso:',
-            dadosItensResposta
-        );
-
-
-        // ======== DADOS PARA O PAGAMENTO ========
+        // ==============================================
+        // PREPARAR PAGAMENTO
+        // ==============================================
 
         const dadosPagamento = {
+
             id_pedido: dados.id_pedido,
+
             valor_total: valorTotal
+
         };
 
         sessionStorage.setItem(
@@ -214,15 +267,17 @@ async function enviarDadosParaBD() {
             JSON.stringify(dadosPagamento)
         );
 
-
-        // ======== IR PARA PAGAMENTO ========
+        // ==============================================
+        // IR PARA PAGAMENTO
+        // ==============================================
 
         window.location.href =
-            `${API_BASE_URL}/pagamento/abrirTelaPagamento`;
+    `${API_BASE_URL}/pagamento/abrirCrudPagamento`; 
 
     } catch (erro) {
+
         console.error(
-            '❌ Erro completo ao finalizar pedido:',
+            'ERRO COMPLETO AO FINALIZAR:',
             erro
         );
 
@@ -231,18 +286,21 @@ async function enviarDadosParaBD() {
         );
 
         botaoFinalizar.disabled = false;
+
         botaoFinalizar.textContent = 'Finalizar Pedido';
     }
 }
 
+// ======================================================
+// EVENTOS
+// ======================================================
 
-// ======== EVENTO DO BOTÃO ========
+document.addEventListener('DOMContentLoaded', () => {
 
-document
-    .getElementById('btn-finalizar')
-    .addEventListener('click', enviarDadosParaBD);
+    document
+        .getElementById('btn-finalizar')
+        .addEventListener('click', enviarDadosParaBD);
 
+    carregarFinalizar();
 
-// ======== AO CARREGAR A PÁGINA ========
-
-carregarFinalizar();
+});

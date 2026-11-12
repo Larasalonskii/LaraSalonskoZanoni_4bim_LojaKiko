@@ -67,17 +67,42 @@ function validarProduto(body) {
 
 exports.listarProdutos = async (req, res) => {
     try {
-        // LEFT JOIN para mostrar o nome da coleção (produto pode não ter coleção)
         const result = await query(
-            `SELECT p.*, c.nome_colecao
-               FROM produto p
-               LEFT JOIN colecao c ON c.id_colecao = p.colecao_id_colecao
-              ORDER BY p.id_produto`
+            `SELECT
+                p.*,
+                c.nome_colecao,
+                COALESCE(
+                    (
+                        SELECT json_agg(
+                            json_build_object(
+                                'id_produto_tom', pt.id_produto_tom,
+                                'tom_id_tom', pt.tom_id_tom,
+                                'nome_tom', t.nome_tom,
+                                'quantidade_estoque_tom',
+                                pt.quantidade_estoque_tom
+                            )
+                            ORDER BY pt.id_produto_tom
+                        )
+                        FROM produto_tom pt
+                        INNER JOIN tom t
+                            ON t.id_tom = pt.tom_id_tom
+                        WHERE pt.produto_id_produto = p.id_produto
+                    ),
+                    '[]'::json
+                ) AS tons
+            FROM produto p
+            LEFT JOIN colecao c
+                ON c.id_colecao = p.colecao_id_colecao
+            ORDER BY p.id_produto`
         );
+
         res.json(result.rows);
+
     } catch (error) {
         console.error('Erro ao listar produtos:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
+        res.status(500).json({
+            error: 'Erro interno do servidor'
+        });
     }
 };
 
@@ -131,19 +156,51 @@ exports.obterProduto = async (req, res) => {
         const id = parseInt(req.params.id);
 
         if (isNaN(id)) {
-            return res.status(400).json({ error: 'ID deve ser um número válido' });
+            return res.status(400).json({
+                error: 'ID deve ser um número válido'
+            });
         }
 
-        const result = await query('SELECT * FROM produto WHERE id_produto = $1', [id]);
+        const result = await query(
+            `SELECT
+                p.*,
+                COALESCE(
+                    (
+                        SELECT json_agg(
+                            json_build_object(
+                                'id_produto_tom', pt.id_produto_tom,
+                                'tom_id_tom', pt.tom_id_tom,
+                                'nome_tom', t.nome_tom,
+                                'quantidade_estoque_tom',
+                                pt.quantidade_estoque_tom
+                            )
+                            ORDER BY pt.id_produto_tom
+                        )
+                        FROM produto_tom pt
+                        INNER JOIN tom t
+                            ON t.id_tom = pt.tom_id_tom
+                        WHERE pt.produto_id_produto = p.id_produto
+                    ),
+                    '[]'::json
+                ) AS tons
+            FROM produto p
+            WHERE p.id_produto = $1`,
+            [id]
+        );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Produto não encontrado' });
+            return res.status(404).json({
+                error: 'Produto não encontrado'
+            });
         }
 
         res.json(result.rows[0]);
+
     } catch (error) {
         console.error('Erro ao obter produto:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
+        res.status(500).json({
+            error: 'Erro interno do servidor'
+        });
     }
 };
 

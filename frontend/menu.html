@@ -1,93 +1,183 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CandyShop - Menu Principal</title>
+
+    <title>Beauty Makeup - Menu Principal</title>
+
     <link rel="stylesheet" href="menu.css">
 </head>
 
 <body>
+
     <header>
+
         <div class="topo">
-            <h1 class="header-titulo">CandyShop - Menu Principal</h1>
+
+            <h1 class="header-titulo">
+                Beauty Makeup - Menu Principal
+            </h1>
 
             <div class="usuario-area">
-                <select id="oUsuario" aria-label="Ações do usuário" onchange="handleUserAction(this.value)">
+
+                <select id="oUsuario"
+                    aria-label="Ações do usuário"
+                    onchange="handleUserAction(this.value)">
+
                     <option value="">Usuário</option>
                     <option value="sair">Sair</option>
+
                 </select>
+
             </div>
+
         </div>
 
-        <nav class="nav" aria-label="Navegação Principal do Site">
+        <nav class="nav" aria-label="Navegação Principal">
 
             <ul class="nav__menu" role="menu">
-                <li class="nav__menu-item"><a href="#">Home</a></li>
+
+                <li class="nav__menu-item">
+                    <a href="#">Início</a>
+                </li>
 
                 <li id="itemMenuCadastros" class="nav__menu-item">
+
                     <a href="#">Cadastros</a>
+
                     <ul class="nav__submenu">
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/pessoa/abrirCrudPessoa">Pessoa</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/pessoa/abrirCrudPessoa">
+                                Pessoa
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/cargo/abrirCrudCargo">Cargo</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/cargo/abrirCrudCargo">
+                                Cargo
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a
-                                href="http://localhost:3001/forma_pagamento/abrirCrudFormaPagamento">Forma
-                                Pagamento</a></li>
-                        <li class="nav__submenu-item"><a
-                                href="http://localhost:3001/produto/abrirCrudProduto">Produto</a></li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/pedido/abrirCrudPedido">Pedido</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/forma_pagamento/abrirCrudFormaPagamento">
+                                Forma de Pagamento
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/tom/abrirCrudTom">Tom</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/produto/abrirCrudProduto">
+                                Produtos de Maquiagem
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/colecao/abrirCrudColecao">Coleção</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/pedido/abrirCrudPedido">
+                                Pedidos
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/cliente/abrirCrudCliente">Cliente</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/tom/abrirCrudTom">
+                                Tons e Cores
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/funcionario/abrirCrudFuncionario">Funcionário</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/colecao/abrirCrudColecao">
+                                Categorias
+                            </a>
                         </li>
-                        <li class="nav__submenu-item"><a href="http://localhost:3001/pagamento/abrirCrudPagamento">Pagamento</a>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/cliente/abrirCrudCliente">
+                                Clientes
+                            </a>
                         </li>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/funcionario/abrirCrudFuncionario">
+                                Funcionários
+                            </a>
+                        </li>
+
+                        <li class="nav__submenu-item">
+                            <a href="http://localhost:3001/pagamento/abrirCrudPagamento">
+                                Pagamentos
+                            </a>
+                        </li>
+
                     </ul>
+
                 </li>
 
                 <li class="nav__menu-item">
-                    <a href="#">About</a>
-                    <ul class="nav__submenu">
-                        <li class="nav__submenu-item"><a href="#">Our Company</a></li>
-                        <li class="nav__submenu-item"><a href="#">Our Team</a></li>
-                    </ul>
+                    <a href="#">Sobre nós</a>
                 </li>
 
-                <li class="nav__menu-item"><a href="#">Blog</a></li>
-                <li class="nav__menu-item"><a href="#">Contact</a></li>
+                <li class="nav__menu-item">
+                    <a href="#">Novidades</a>
+                </li>
+
+                <li class="nav__menu-item">
+                    <a href="#">Contato</a>
+                </li>
+
             </ul>
 
-            <button id="btnVerCarrinho" class="btn-ver-carrinho"
+            <button
+                id="btnVerCarrinho"
+                class="btn-ver-carrinho"
                 onclick="window.location.href='http://localhost:3001/login/visaoclientecarrinho'"
                 aria-label="Ver Carrinho de Compras">
-                🛒 Ver Carrinho (<span id="contadorCarrinho">0</span>)
+
+                🛒 Ver Carrinho (
+                <span id="contadorCarrinho">0</span>
+                )
+
             </button>
 
         </nav>
+
     </header>
 
     <main>
+
         <div class="carrossel-container">
-            <button id="prev-btn" class="nav-btn prev" aria-label="Anterior">&lt;</button>
+
+            <button
+                id="prev-btn"
+                class="nav-btn prev"
+                aria-label="Anterior">
+                &lt;
+            </button>
 
             <div id="carrossel-wrapper" class="carrossel-wrapper">
-                <div class="mensagem-info">Carregando produtos...</div>
+
+                <div class="mensagem-info">
+                    Carregando maquiagens...
+                </div>
+
             </div>
 
-            <button id="next-btn" class="nav-btn next" aria-label="Próximo">&gt;</button>
+            <button
+                id="next-btn"
+                class="nav-btn next"
+                aria-label="Próximo">
+                &gt;
+            </button>
+
         </div>
+
     </main>
 
     <footer>
-        <p>&copy; 2025 - Meu Site</p>
+
+        <p>&copy; 2026 - Beauty Makeup</p>
+
     </footer>
 
     <script src="http://localhost:3001/menu.js"></script>

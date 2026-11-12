@@ -223,3 +223,72 @@ exports.deletarItem = async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 };
+
+
+const db = require('../database');
+
+exports.criarItensLote = async (req, res) => {
+    const itens = req.body;
+
+    if (!Array.isArray(itens) || itens.length === 0) {
+        return res.status(400).json({
+            error: 'Nenhum produto foi enviado.'
+        });
+    }
+
+    try {
+        const resultado = await db.transaction(async (client) => {
+
+            for (const item of itens) {
+                const {
+                    pedido_id_pedido,
+                    produto_tom_id_produto_tom,
+                    quantidade,
+                    preco_unitario
+                } = item;
+
+                if (
+                    !pedido_id_pedido ||
+                    !produto_tom_id_produto_tom ||
+                    !quantidade ||
+                    preco_unitario == null
+                ) {
+                    throw new Error(
+                        'Selecione o produto em todas as linhas.'
+                    );
+                }
+
+                await client.query(
+                    `INSERT INTO public.pedido_has_produto
+                    (
+                        pedido_id_pedido,
+                        produto_tom_id_produto_tom,
+                        quantidade,
+                        preco_unitario
+                    )
+                    VALUES ($1, $2, $3, $4)`,
+                    [
+                        pedido_id_pedido,
+                        produto_tom_id_produto_tom,
+                        quantidade,
+                        preco_unitario
+                    ]
+                );
+            }
+
+            return itens;
+        });
+
+        return res.status(201).json({
+            message: 'Produtos adicionados ao pedido com sucesso!',
+            itens: resultado
+        });
+
+    } catch (error) {
+        console.error('Erro ao cadastrar itens do pedido:', error);
+
+        return res.status(400).json({
+            error: error.message
+        });
+    }
+};

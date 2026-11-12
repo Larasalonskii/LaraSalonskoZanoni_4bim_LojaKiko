@@ -103,7 +103,9 @@ function validarCorpo(body) {
     const itens = [];
 
     for (const item of recebidos) {
-        const produtoTom = Number(item && item.produto_tom_id);
+        const produtoTom = Number(
+    item && (item.produto_tom_id ?? item.id_produto_tom)
+);
         const quantidade = Number(item && item.quantidade);
 
         if (!Number.isInteger(produtoTom) || produtoTom <= 0) {
